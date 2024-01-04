@@ -20,9 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Callback<ArrayList<Usuario>> {
-
-    private UsuariosAdapter mAdapter;
-
+    public UsuariosAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +32,12 @@ public class MainActivity extends AppCompatActivity implements Callback<ArrayLis
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv_usuarios.setLayoutManager(layoutManager);
 
-        mAdapter = new UsuariosAdapter();
+        mAdapter = new UsuariosAdapter(this);
         rv_usuarios.setAdapter(mAdapter);
 
         Call<ArrayList<Usuario>> call = UsuarioApiAdapter.getApiService().getUsuarios();
         call.enqueue(this);
     }
-
     @Override
     public void onResponse(Call<ArrayList<Usuario>> call, Response<ArrayList<Usuario>> response) {
         if (response.isSuccessful()){
@@ -49,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements Callback<ArrayLis
             mAdapter.setDataSet(usuarios);
         }
     }
-
     @Override
     public void onFailure(Call<ArrayList<Usuario>> call, Throwable t) {
 
